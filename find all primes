@@ -1,0 +1,51 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+const int N = 1e6;
+bool flag[N] = { 0 };
+int prime[N];
+
+int main() {
+	double start = clock();
+	int cnt = 0;
+
+	////朴素筛法
+	//flag[0] = true; flag[1] = true;
+	//for (int i = 2; i <= N; i++) {
+	//	if (!flag[i])	prime[cnt++] = i;
+	//	for (int j = 2 * i; j <= N; j += i)	flag[j] = true;
+	//}
+
+
+	////欧拉筛法
+	//flag[0] = true; flag[1] = true;
+	//for (int i = 2; i <= N; i++) {
+	//	if (!flag[i]) {
+	//		prime[cnt++] = i;
+	//		for (int j = i * 2; j <= N; j += i)		flag[j] = true;
+	//	}
+	//}
+
+	//线性筛法
+	flag[0] = true, flag[1] = true;
+	for (int i = 2; i <= N; i++) {
+		if (!flag[i])	prime[cnt++] = i;
+		for (int j = 0;prime[j] <= N / i; j++) {
+			flag[prime[j] * i] = true;
+			if (i % prime[j] == 0)	break;
+		}
+	}
+
+
+	long double num = 0;
+	for (int i = 0; i < cnt; i++) {
+		num += prime[i];
+	}
+
+	double end = clock();
+	printf(" times  =  %d \n num  =  %d  \n times  =  %.01fms\n", cnt, num, end - start);
+
+	return 0;
+}
